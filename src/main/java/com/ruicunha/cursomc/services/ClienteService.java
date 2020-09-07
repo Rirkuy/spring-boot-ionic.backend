@@ -40,7 +40,7 @@ public class ClienteService {
 	
 	public Cliente find(Integer id) {
 		
-		UserSS user = UserService.autheticated();
+		UserSS user = UserService.authenticated();
 		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 		}
