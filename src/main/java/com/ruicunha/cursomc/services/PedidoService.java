@@ -14,7 +14,6 @@ import com.ruicunha.cursomc.domain.enums.EstadoPagamento;
 import com.ruicunha.cursomc.repositories.ItemPedidoRepository;
 import com.ruicunha.cursomc.repositories.PagamentoRepository;
 import com.ruicunha.cursomc.repositories.PedidoRepository;
-import com.ruicunha.cursomc.repositories.ProdutoRepository;
 import com.ruicunha.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -37,6 +36,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -64,7 +66,7 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItems());
-		System.out.println(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 		
 	}
